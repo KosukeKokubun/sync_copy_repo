@@ -1,0 +1,31 @@
+name: copy target.yml from sync_source_repo
+on:
+  repository_dispatch:
+    types: [target-updated]
+jobs:
+  copy-target:
+    name: copy target.yml
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: clone sync_source_repo
+        uses: actions/checkout@v2
+        with:
+          repository: organization/sync_source_repo
+          path: sync_source_repo
+          token: ${{ secrets.GITHUB_ACCESS_TOKEN }}
+      - name: copy target.yml
+        run: cp sync_source_repo/test/* test/
+      - name: clean sync_source_repo
+        run: rm -rf sync_source_repo
+      - name: create PR
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.GITHUB_ACCESS_TOKEN }}
+          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+          commit-message: 'copy target.yml'
+          branch: copy_target
+          branch-suffix: timestamp
+          delete-branch: true
+          title: 'updated target.yml'
