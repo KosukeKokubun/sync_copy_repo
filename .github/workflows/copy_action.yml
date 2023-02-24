@@ -16,7 +16,7 @@ jobs:
           path: sync_source_repo
           token: ${{ secrets.ACCESS_TOKEN }}
       - name: copy files from sources
-        run: cp sync_source_repo/test/sources_files test/
+        run: cp -r sync_source_repo/test/sources_files test/
       - name: clean sync_source_repo
         run: rm -rf sync_source_repo
       - name: create PR
