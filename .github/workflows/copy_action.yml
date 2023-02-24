@@ -14,15 +14,15 @@ jobs:
         with:
           repository: organization/sync_source_repo
           path: sync_source_repo
-          token: ${{ secrets.GITHUB_ACCESS_TOKEN }}
+          token: ${{ secrets.ACCESS_TOKEN }}
       - name: copy target.yml
-        run: cp sync_source_repo/test/* test/
+        run: cp sync_source_repo/test/sources_files test/
       - name: clean sync_source_repo
         run: rm -rf sync_source_repo
       - name: create PR
         uses: peter-evans/create-pull-request@v3
         with:
-          token: ${{ secrets.GITHUB_ACCESS_TOKEN }}
+          token: ${{ secrets.ACCESS_TOKEN }}
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           commit-message: 'copy target.yml'
           branch: copy_target
