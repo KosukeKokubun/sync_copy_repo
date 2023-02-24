@@ -4,7 +4,7 @@ on:
     types: [target-updated]
 jobs:
   copy-target:
-    name: copy target.yml
+    name: copy files
     runs-on: ubuntu-latest
     steps:
       - name: checkout
@@ -15,7 +15,7 @@ jobs:
           repository: KosukeKokubun/sync_source_repo
           path: sync_source_repo
           token: ${{ secrets.ACCESS_TOKEN }}
-      - name: copy files
+      - name: copy files from sources
         run: cp sync_source_repo/test/sources_files test/
       - name: clean sync_source_repo
         run: rm -rf sync_source_repo
